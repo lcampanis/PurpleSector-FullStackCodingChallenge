@@ -1,4 +1,4 @@
-# PurpleSector Backend Technical Challenge
+# PurpleSector Fullstack Technical Challenge
 
 ## Instructions
 During the Technical Challenge you will be asked to share your screen and talk through your thinking as you go.
