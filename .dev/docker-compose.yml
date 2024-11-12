@@ -1,0 +1,43 @@
+name: ps-interview
+
+services:
+  db:
+    image: postgres:16.2-alpine
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - ps_interview_db_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+    container_name: ps-interview-db
+  api:
+    build:
+      context: ../
+      dockerfile: .dev/DockerfileAPI
+    ports:
+      - 8000:80
+      - 5678:5678
+    depends_on:
+      - db
+    volumes:
+      - ../api:/app
+    container_name: ps-interview-api
+  ui:
+    build:
+      context: ../
+      dockerfile: .dev/DockerfileUI
+    expose:
+      - 5173
+    ports:
+      - 5173:5173
+    container_name: ps-interview-ui
+    depends_on:
+      - api
+    volumes:
+      - ../ui:/app
+      - /app/node_modules
+volumes:
+  ps_interview_db_data:

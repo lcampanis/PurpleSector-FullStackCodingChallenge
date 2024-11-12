@@ -1,0 +1,27 @@
+# pull official base image
+FROM python:3.11-bullseye
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# set work directory
+WORKDIR /app
+
+# update packages
+RUN apt update
+RUN apt upgrade -y
+
+# update pip
+RUN pip install --upgrade pip
+RUN pip install poetry poetry-plugin-export
+
+# copy dependencies
+COPY api/pyproject.toml .
+COPY api/poetry.lock .
+
+# install dependencies
+RUN poetry export --without-hashes --with dev -f requirements.txt -o /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
+
+CMD ["bash", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && python -m debugpy --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:80"]
