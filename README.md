@@ -20,7 +20,7 @@ Make sure the following are installed on your system prior to running the projec
 * [Docker](https://docs.docker.com/engine/install/)
 * [Poetry](https://python-poetry.org/docs/#installing-with-the-official-installer)
 
-### Run the API
+### Run the API and UI
 Create a `.env` file using `.env.dist` as a template.
 
 ```bash
@@ -28,6 +28,7 @@ cd .dev
 docker-compose up --build
 ```
 The API is available at `http://localhost:8000`.
+The UI is available at `http://localhost:5173`.
 
 ## Clean-up
 To remove all images and volumes created by docker-compose
